@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" href="stylesheets/bootstrap.css">
+		<link rel="stylesheet" href="stylesheets/application.css">
+		<link rel="icon" type="image/ico" href="images/who.png">
+		<title>WhoJS</title>
+	</head>
+
+	<body>
+		<a href="https://github.com/globusonline/whojs"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px;" src="http://aral.github.com/fork-me-on-github-retina-ribbons/right-grey@2x.png" alt="Fork me on GitHub"></a>
+		<div class="container-narrow">
+		    <div class="header">
+		        <ul class="nav nav-pills pull-right">
+		        	<li><a target="_blank" href="https://gist.github.com/neildahlke/7ce2ea3e476c04aa7ef7">Markdown</a></li>
+		            <li><a target="_blank" href="https://gist.github.com/neildahlke/f2241c22b996e94d4cf9">Docs</a></li>
+		        </ul>
+		        <h3 class="text-muted">WhoJS</h3>
+		    </div>
+		    <div class="jumbotron">
+		        <img style="height: 200px;" src="images/who.png" alt="WhoJS" />
+		        <h1>WhoJS</h1>
+		        <p class="lead">Behavior Driven JavaScript Browser Automation</p>
+		    </div>
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+		            <h2>Contents</h2>
+		            <ol>
+		                <li><a href="#philosophy">Philosophy</a></li>
+		                <li>
+		                    <a href="#getting_started">Getting Started</a>
+		                </li>
+		               	<li>
+		               		<a href="#using_whojs">Using WhoJS</a>
+		                    <ol type="I">
+		                    	<li><a href="#setting_context">Setting Context</a></li>
+		                    	<li><a href="#reset_context">Reset Context</a></li>
+		                        <li><a href="#typing_values">Typing Values Into a Form</a></li>
+		                        <li><a href="#reading_values">Reading Values from a Form</a></li>
+		                        <li><a href="#clicking_elements">Clicking Elements</a></li>
+		                        <li><a href="#passing_time">Passing Time</a></li>
+		                    </ol>
+		                </li>
+		                <!-- <li>
+		                	<a href="#testing_frameworks">Usage with Testing Frameworks</a>
+		                	<ol type="I">
+		                    	<li><a href="#working_with_jasmine">Working with Jasmine</a></li>
+		                    	<li><a href="#working_with_qunit">Working with QUnit</a></li>
+		                    </ol>
+		                </li> -->
+		            </ol>
+		        </div>
+		    </div>
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+		            <h2><a name="philosophy">Philosophy</a></h2>
+		            <p>Who can it be? It can be anybody, and by that, we mean your user. Okay, enough with the riddles. This is a library for emulating user navigation within a single page using JavaScript! </p>
+		        </div>
+		    </div>
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+		            <h2><a name="getting_started">Getting Started</a></h2>
+		            <p>Grab yourself a copy of WhoJS from <a target="_blank" href="https://github.com/globusonline/whojs">GitHub</a> and include it in your page similar to this:</p>
+		            <pre>
+
+&lt;script src="javascripts/who.js"&gt; &lt;/script&gt;
+		            </pre>
+		            <!-- <p>Alternatively, you can use Bower.</p>
+		            <pre>
+
+bower install whojs
+		            </pre> -->
+		        </div>
+		    </div>
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+		            <h2><a name="using_whojs">Using WhoJS</a></h2>
+		        </div>
+		    </div>
+
+		    <div class="row marketing" id="new_context_example">
+		        <div class="col-lg-12">
+		            <h4><a name="setting_context">Setting Context</a></h4>
+		            <p>Setting context is useful for zoning in on a specific part of the page Who is looking at. Running this example will show you very quickly a shift in Who's context. You can see what part of the page Who is actively looking at by finding the blue highlighted area.</p>
+		            <div class="runnable-code-block">
+		                <pre>
+
+Who.setContext('#new_context_example');
+
+		                </pre>
+		                <button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row marketing" id="new_context_example">
+		        <div class="col-lg-12">
+		            <h4><a name="reset_context">Reset Context</a></h4>
+		            <p>Sometimes you want Who to be watching over the whole page. A quick reset of context can be achieved using <code>resetContext()</code>. You'll notice when you run this code that the context is shifted back to the <code>body</code>.</p>
+		            <div class="runnable-code-block">
+		                <pre>
+
+Who.resetContext();
+
+		                </pre>
+		                <button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+		            <h4><a name="typing_values">Typing Values Into a Form</a></h4>
+		            <p>When a Who user wants to type a value into a form, there are two things they need. The text of the <code>label</code> they are looking for, and the input, which is the text that will be put into the field.</p>
+		            <div class="runnable-code-block">
+		                <pre>
+
+Who.setContext('#typing_values_example');
+
+Who.typesValueIntoForm({
+	label : "Name",
+	input : "Neil Dahlke"
+});
+		                </pre>
+		                <button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+		            <div class="example-area" id="typing_values_example">
+		                <form class="form-horizontal">
+		                    <div class="form-group">
+		                        <label for="name" class="col-lg-2 control-label">Name</label>
+		                        <div class="col-lg-10">
+		                            <input type="text" class="form-control" name="name" id="name" placeholder="Name" />
+		                        </div>
+		                    </div>
+		                </form>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+		            <p>The labels are case insensitive, and can also be search by partial matches using the <code>findByPartial</code> flag.</p>
+		            <div class="runnable-code-block">
+		                <pre>
+
+Who.setContext('#typing_values_example_2');
+
+Who.typesValueIntoForm({
+	label : "tail",
+	input : "Shark Fin",
+	findByPartial : true
+});
+
+
+// This will fail as there is no findByPartial flag
+
+Who.typesValueIntoForm({
+	label : "tail",
+	input : "Bottle Neck"
+});
+		                </pre>
+		                <button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+		            <div class="example-area" id="typing_values_example_2">
+		                <form class="form-horizontal">
+		                    <div class="form-group">
+		                        <label for="tail_shape" class="col-lg-2 control-label">Tail Shape</label>
+		                        <div class="col-lg-10">
+		                            <input type="text" class="form-control" id="tail_shape" placeholder="Bottle Neck" />
+		                        </div>
+		                    </div>
+		                </form>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+		            <h4><a name="clicking_elements">Clicking on elements</a></h4>
+		            <div class="runnable-code-block">
+		                <pre>
+
+Who.setContext('#click_example');
+
+Who.clicksElement({
+	text : "Click Me!",
+	type : "a"
+});
+		                </pre>
+		                <button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+		            <p>or you can specify links using the <code>LINK</code> keyword.</p>
+		            <div class="runnable-code-block">
+		                <pre>
+
+Who.setContext('#click_example');
+
+Who.clicksElement({
+	text : "Click",
+	type : "LINK",
+	findByPartial : true
+});
+		                </pre>
+		                <button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+		            <div class="example-area" id="click_example">
+		                <a onclick="alert('Anchor clicked!')">Click Me!</a>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+		            <h4><a name="reading_values">Reading form values</a></h4>
+		            <p>Often times you'll simply want Who to read in the form values, and for that, we have <code>readsFormValue</code></p>
+		            <div class="runnable-code-block">
+		                <pre>
+
+Who.setContext('#read_values_example');
+
+var formVal = Who.readsFormValue({
+	label : "My NaMe Is:"
+});
+
+alert('Hi '+(formVal||"Who")+'!');
+		                </pre>
+
+		                <button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+		            <div class="example-area" id="read_values_example">
+		                <form class="form-horizontal">
+		                    <div class="form-group">
+		                        <label for="hi_there" class="col-lg-2 control-label">My name is:</label>
+		                        <div class="col-lg-10">
+		                            <input type="text" class="form-control" name="hi_there" id="hi_there" placeholder="Davey Crocket"/>
+		                        </div>
+		                    </div>
+		                </form>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row marketing" id="passing_time_example">
+		        <div class="col-lg-12">
+		            <h4><a name="passing_time">Passing time</a></h4>
+		            <p>When you need Who to chill for a moment, maybe while you're fetching some things with AJAX, you can use <code>passesTime</code> with the option <code>thenWho</code> as a required callback for when Who finishes waiting.</p>
+		            <div class="runnable-code-block">
+		                <pre>
+
+Who.setContext('#passing_time_example');
+
+var _start = new Date();
+
+Who.passesTime({
+	ms : 2000,
+	thenWho : function() {
+		var _end = new Date(),
+			_waited = ((_end - _start)/1000);
+		alert("Who waited "+_waited+" seconds!");
+	}
+});
+
+		                </pre>
+		                <button class="btn btn-primary run-this">Run this code</button>
+			        </div>
+			    </div>
+			</div>
+
+		    <!-- <div class="row marketing">
+		        <div class="col-lg-12">
+		            <h2><a name="testing_frameworks">Usage with Testing Frameworks</h2>
+		        </div>
+		    </div>
+
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+		            <h3><a name="working_with_jasmine">Working with <a href="http://pivotal.github.io/jasmine/" target="_blank">Jasmine</a></a></h3>
+
+		            <p> Accoring to Jasmine's own GitHub page, <em>"Jasmine is a behavior-driven development framework for testing JavaScript code"</em>. Bearing that in mind, WhoJS is a perfect match for Jasmine's behavior driven philosophy. Using Who becomes as simple as thinking of Who as the user who's behavior is being tested. To show you how simple it is to integrate Who and Jasmine, we've prepared a Who script below that walks through all of the features of this tutorial page. Be sure to read through this short little script and when you feel confident in what it's up to, go ahead and run the code!</p>
+
+		            <div class="runnable-code-block">
+		            	<pre>
+
+describe("WhoJS Tutorial Site Test", function() {
+	it("Has shown the images that we needed to load from google.", function() {
+		// TODO: expect there to be more than 2 divs in a given context.
+		expect(true).toBe(true);
+	});
+});
+
+		            	</pre>
+		            	<button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+		            <h3><a name="working_with_qunit">Working with <a href="http://pivotal.github.io/jasmine/" target="_blank">QUnit</a></a></h3>
+		            	<pre>
+
+test( "hello test", function() {
+
+	ok( 1 == "1", "Passed!" );
+
+});
+					</pre>
+		        </div>
+		    </div>
+
+		    <div class="row marketing">
+		        <div class="col-lg-12">
+
+		        </div>
+		    </div> -->
+
+		    <div class="footer">
+		    	<a target="_blank" href="http://twitter.com/thatdanmorgan"><div class="label success">@thatdanmorgan</div>
+		    	<a target="_blank" href="http://twitter.com/koglerjs"><div class="label success">@koglerjs</div>
+		    	<a target="_blank" href="http://twitter.com/neildahlke"><div class="label success">@neildahlke</div>
+		    	<h6 class="text-muted"><a target="_blank" href="http://dev.globus.org/"><img id="globus_dev" style="height: 40px;" src="images/globus_dev.svg" alt="Globus Dev" />Globus Dev</a></h6>
+		        <p>&copy; 2010-2013 <a target="_blank" href="www.ci.anl.gov/">Computation Institute</a>, <a target="_blank" href="http://uchicago.edu">University of Chicago</a>, <a target="_blank" href="http://anl.gov">Argonne National Laboratory</a></p>
+		    </div>
+
+		</div>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jasmine/1.3.1/jasmine.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jasmine/1.3.1/jasmine-html.js"></script>
+		<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/qunit/1.11.0/qunit.min.js"></script> -->
+		<script src="javascripts/who.js"></script>
+		<script src="javascripts/app.js"></script>
+
+	</body>
+</html>
