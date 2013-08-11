@@ -169,6 +169,11 @@ var Q = {
 
         setContext : function(context) {
             this.context = Q.context = $(context);
+            // TODO: Since there is only one or two styles used, should we generate CSS here?
+            // border: 5px solid #3399f3;
+            // -webkit-transition : border 500ms ease-out;
+            // -moz-transition : border 500ms ease-out;
+            // -o-transition : border 500ms ease-out;
             $('*').removeClass('who-context');
             $(context).addClass('who-context');
         },
@@ -276,16 +281,13 @@ var Q = {
         },
 
         passesTime : function(data) {
-            var _ms = data.ms||1000,
-                _callback = data.thenWho;
+            var _ms = data.ms || 1000,
+                _flag = false,
+                _callback = data.thenWho || function(){ _flag = true; },
+                _waitingFn = data.whileWaiting || function(){ return _flag; };
 
-            if (!_callback) {
-                throw new Error("You must provide a callback to pass time.");
-            }
-
-            setTimeout(function() {
-                _callback();
-            }, _ms);
+            setTimeout(_callback, _ms);
+            return _waitingFn;
         },
 
         DEV : {

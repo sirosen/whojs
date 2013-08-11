@@ -4,7 +4,9 @@
 	<head>
 		<link rel="stylesheet" href="stylesheets/bootstrap.css">
 		<link rel="stylesheet" href="stylesheets/application.css">
-		<link rel="icon" type="image/ico" href="images/who.png">
+		<link rel="shortcut icon" href="who.ico" />
+		<link rel="icon" type="image/ico" href="who.png">
+
 		<title>WhoJS</title>
 	</head>
 
@@ -57,7 +59,7 @@
 		    <div class="row marketing">
 		        <div class="col-lg-12">
 		            <h2><a name="philosophy">Philosophy</a></h2>
-		            <p>Who can it be? It can be anybody, and by that, we mean your user. Okay, enough with the riddles. This is a library for emulating user navigation within a single page using JavaScript! </p>
+		            <p>WhoJS is a library aimed at making it simpler and more expressive for Front End Developers to test the displays fo their web page. Using WhoJS allows you to emulate user navigation within a single page using JavaScript, in a simple, easy to understand syntax.</p>
 		        </div>
 		    </div>
 
@@ -217,11 +219,17 @@ Who.clicksElement({
 		    <div class="row marketing">
 		        <div class="col-lg-12">
 		            <h4><a name="reading_values">Reading form values</a></h4>
-		            <p>Often times you'll simply want Who to read in the form values, and for that, we have <code>readsFormValue</code></p>
+		            <p>Often times you'll simply want Who to read in the form values, and for that, we have <code>readsFormValue</code>. In the example below, who will enter in a name, and then read it back to us.</p>
 		            <div class="runnable-code-block">
 		                <pre>
 
 Who.setContext('#read_values_example');
+
+Who.typesValueIntoForm({
+	label : "my name",
+	input : "J Dilla",
+	findByPartial : true
+});
 
 var formVal = Who.readsFormValue({
 	label : "My NaMe Is:"
