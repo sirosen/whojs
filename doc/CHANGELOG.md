@@ -1,1 +1,0 @@
-# Who.js - v0.0.1 - Change Log
