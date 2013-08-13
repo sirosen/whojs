@@ -15,27 +15,28 @@
     @version 0.0.1
 */
 
-// TODO check that it is actually on screen.
-// TODO add hover ability
+// TODO check that it is actually on screen (withing view port).
 // TODO convert to raw JS (no jQ dependency)
-// TODO password input types
-// TODO clear input
-// TODO clear all inputs
-// TODO make sure form value reads checkboxes and radios
-// TODO remove jQuery dialog
 // TODO Logger class
+// TODO: Reading/Writing to type="password" inputs?
 
 var Q = {
         LINK : "a",
         BUTTON : "button,input[type=button],input[type=submit]",
+        FORM_INPUT : "input,textarea,select",
 
-        // TODO: Clear input
+        findEl : function(data) {
+            var els = this.findEls(data);
+            if (els.length == 1) {
+                return els[0];
+            } else {
+                data.error = "Too many elements found for query " + data.query;
+                return null;
+            }
 
-        findLink : function(text) {
-            return this.findElementWithText(Q.LINK, text, false);
         },
 
-        findElements : function(data) {
+        findEls : function(data) {
 
             if (data.type && !data.query) {
                 data.query = Q[data.type.toUpperCase()] || data.type;
@@ -43,12 +44,9 @@ var Q = {
 
             var retVal = this.mergeFind(data);
 
-
             if (data.visible) {
-
                 retVal = retVal.filter(":visible");
                 if (retVal !== null) {
-                    var qContext = this.context;
                     for(var i = 0; i < retVal.length; i++) {
                         var elNum = 0;
                         var $rV = $(retVal[i][0]);
@@ -67,19 +65,8 @@ var Q = {
             return retVal;
         },
 
-        findElement : function(data) {
-            var eles = this.findElements(data);
-            if (eles.length == 1) {
-                return eles[0];
-            } else {
-                data.error = "Too many elements found for query " + data.query;
-                return null;
-            }
-
-        },
-
-        findElementWithText : function(data) {
-            var _elements = this.findElements(data);
+        findElWithText : function(data) {
+            var _elements = this.findEls(data);
             var _retVal = null;
             var _caseFunc = function(x) {return x;};
             if (!data.caseSensitive) _caseFunc = function(x) {return x.toLowerCase();};
@@ -105,20 +92,26 @@ var Q = {
             return _retVal;
         },
 
-        findFormInputByLabel : function(data) {
-
+        findValueByLabel : function(data) {
             var _caseFunc = function(x) { return x; },
-                _inputField = null,
-                _self;
+                _matchingField = null,
+                _self = this,
+                _valueType = data.valueType || 'input';
 
-            if (!data.label) return false;
+            if (!data.label) {
+                return false;
+            }
 
             data.visible = true;
             data.type = 'label';
 
-            if (!data.caseSensitive) _caseFunc = function(x) { return x.toLowerCase(); };
+            if (!data.caseSensitive) {
+                _caseFunc = function(x) {
+                    return x.toLowerCase();
+                };
+            }
 
-            var _labels = this.findElements(data),
+            var _labels = this.findEls(data),
                 _text = _caseFunc(data.label);
 
             for(var i = 0; i < _labels.length; i++) {
@@ -129,121 +122,80 @@ var Q = {
 
                 if (_partial) {
                     _match = (_labelText.indexOf(_text) != -1);
+                    console.log(_labelText, _text, _match);
                 } else {
                     _match =  (_labelText == _text);
                 }
 
+
+
                 if (_match) {
-                    _inputField = $('input[name="'+$label.attr('for')+'"]');
-                    _inputField = _inputField.length === 0 ? $('input#'+$label.attr('for')+'') : _inputField;
-                    _inputField = _inputField.length === 0 ? $('input.'+$label.attr('for')+'') : _inputField;
-                    _inputField = _inputField.length === 0 ? $label.closest('input') : _inputField;
+
+                    _matchingField = $(_valueType+'[name="'+$label.attr('for')+'"]') ||
+                                     $(_valueType+'#'+$label.attr('for')) ||
+                                     $(_valueType+'.'+$label.attr('for'));
+
+                    // TODO: Determine whether or not a catch all like this is useful.
+                    // _matchingField = _matchingField.length === 0 ? $label.siblings(_valueType) : _matchingField;
+                    // _matchingField = _matchingField.length === 0 ? $label.closest(_valueType) : _matchingField;
                 }
             }
 
-            return _inputField;
+            return _matchingField;
         },
 
         mergeFind : function(data) {
-            var types = data.query.split(','),
-                contextSelector = this.context.selector,
-                qString = "",
-                qResult = null;
+            var _query = data.query || "",
+                _types = _query.split(','),
+                _contextSelector = this.context.selector,
+                _qString = "",
+                _qResult = null;
 
-            for(var i = 0; i < types.length; i++) {
-                qString += contextSelector + ' ' + types[i];
-                if (i != types.length - 1) {
+            for(var i = 0; i < _types.length; i++) {
+                _qString += _contextSelector + ' ' + _types[i];
+                if (i != _types.length - 1) {
                     // If this is added at the end it will
                     // bomb out the jQuery selector.
-                    qString += ',';
+                    _qString += ',';
                 }
             }
 
-            var qResult = $(qString);
-            return qResult;
+            _qResult = $(_qString);
+            return _qResult;
         }
     };
 
 (function() {
     window.Who = window.Who || {
 
-        setContext : function(context) {
-            this.context = Q.context = $(context);
-            // TODO: Since there is only one or two styles used, should we generate CSS here?
-            // border: 5px solid #3399f3;
-            // -webkit-transition : border 500ms ease-out;
-            // -moz-transition : border 500ms ease-out;
-            // -o-transition : border 500ms ease-out;
-            $('*').removeClass('who-context');
-            $(context).addClass('who-context');
-        },
+        clearsInput : function(data) {
+            // TODO: Implement this method.
+            var _el = Q.findValueByLabel(data);
 
-        resetContext : function() {
-            this.setContext("body");
-        },
-
-        setContextToCurrentJQueryDialog : function(context) {
-            var ele = null;
-            var maxZ = 0;
-            $(".ui-dialog:visible").each(function(i,v) {
-                var z = $(v).css("z-index");
-                if (z > maxZ) {
-                    maxZ = z;
-                    ele = v;
-                }
-            });
-            this.setContext(ele);
-        },
-
-        seesElementWithText : function(data) {
-            data.visible = true;
-            var element = Q.findElementWithText(data);
-            return (element && element.length == 1);
-        },
-
-        readsFormValue : function(data) {
-            data.type = data.type || 'label';
-            var element = Q.findFormInputByLabel(data);
-            if (element && element.length) {
-                return element.val();
+            if (_el && _el.length == 1) {
+                _el.val("");
+            } else {
+                console.log("There were too many inputs to clear. Try making your query more specific.");
             }
-            return null;
         },
 
-        typesValueIntoForm : function(data) {
-            data.type = data.type || 'label';
-            var $el = Q.findFormInputByLabel(data);
-
-            if (!$el) {
-                return false;
-            }
-
-            var str = data.input;
-            var c = '';
-            $el.val('');
-
-            for(var i=0; i<str.length; i++) {
-                c = str[i];
-                $el.keydown();
-                $el.val($el.val() + c);
-                $el.keyup();
-                $el.keypress();
-            }
+        clicksButton : function(data) {
+            data.type = "BUTTON";
+            this.clicksElement(data);
         },
 
         clicksElement : function(data) {
 
             var ele;
             if (!!data.text) {
-                ele = Q.findElementWithText(data);
+                ele = Q.findElWithText(data);
             } else if (!!data.label) {
-                ele = Q.findFormInputByLabel(data);
+                ele = Q.findValueByLabel(data);
             } else {
-                ele = Q.findElement(data);
+                ele = Q.findEl(data);
             }
 
             data.message = data.message || "ACTION - click @type@ with @text@";
-
 
             if (!!ele && ele.length > 0) {
                 data.status = true;
@@ -256,7 +208,6 @@ var Q = {
                         // going on with the closure I have to debug.
                         // $('#click_spot').remove();
                         // $('<div id="click_spot"/>').appendTo('body').css({left:event.x, top:event.y}).fadeOut();
-
                     } else {
                         data.status = false;
                         data.exception = "Click was not a function.";
@@ -273,11 +224,14 @@ var Q = {
             return data.status;
         },
 
-        closeDialog : function(data) {
-            data.query = Q.LINK + "," + Q.BUTTON;
-            data.text("close");
-            data.message = "ACTION - Close Dialog";
-            return this.click(data);
+        clicksLink : function(data) {
+            data.type = "LINK";
+            this.clicksElement(data);
+        },
+
+
+        hoversOver : function(data) {
+            // TODO: Implement this method.
         },
 
         passesTime : function(data) {
@@ -290,20 +244,102 @@ var Q = {
             return _waitingFn;
         },
 
+        readsFormValue : function(data) {
+            data.type = data.type || 'label';
+            var element = Q.findValueByLabel(data);
+            console.log(element);
+            if (element && element.length) {
+                return element.val();
+            }
+            return null;
+        },
+
+        resetContext : function() {
+            this.setContext("body");
+        },
+
+        seesElementWithPlaceholderText : function(data) {
+            // TODO: Implement this method
+        },
+
+        seesElementWithText : function(data) {
+            data.visible = true;
+            var element = Q.findElWithText(data);
+            return (element && element.length == 1);
+        },
+
+        clicksRadioButton : function(data) {
+            // TODO: implement this method
+        },
+
+        clicksCheckbox : function(data) {
+            // TODO: implement this method
+        },
+
+        selectsFromDropDown : function(data) {
+
+            data.valueType = 'select';
+            var _optionText = data.optionText || "",
+                _$selectBoxes = Q.findValueByLabel(data),
+                _box = _$selectBoxes[0],
+                _match = false;
+
+            for (var i = 0; i < _box.length || _match; i++) {
+                var _optLabel = _box[i].label;
+                if (_optionText === _optLabel) {
+                    $(_box).val(_box[i].value);
+                }
+            }
+
+            // TODO: Error messaging if select box or option were not found.
+        },
+
+        setContext : function(context) {
+            this.context = Q.context = $(context);
+            $('*').removeClass('who-context');
+            $(context).addClass('who-context');
+        },
+
+        typesValueIntoForm : function(data) {
+            data.type = data.type || 'label';
+            var $el = Q.findValueByLabel(data);
+
+            if (!$el) {
+                return false;
+            }
+
+            var str = data.text;
+            var c = '';
+            $el.val('');
+
+            for(var i=0; i<str.length; i++) {
+                c = str[i];
+                $el.keydown();
+                $el.val($el.val() + c);
+                $el.keyup();
+                $el.keypress();
+            }
+        },
+
         DEV : {
 
             findHiddenInputThroughInspection : function(data) {
                 data.type = "input[type='hidden'][name='"+data.name+"']";
-                var retVal = Query.findElement(data);
+                var retVal = Query.findEl(data);
                 return $(retVal);
+            },
+
+            findElByID : function(data) {
+                // TODO: Implement this method.
+            },
+
+            findElByClass : function(data) {
+                // TODO: Implement this method.
             },
 
             clearAllInputs : function() {
                 $('input[type=text]').val("");
             }
-
-            // TODO: findByID
-            // TODO: findByClassName
 
         }
     };
