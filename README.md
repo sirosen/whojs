@@ -1,4 +1,4 @@
-![WhoJS](http://i.imgur.com/EPukCHO.png "An automated web user.")
+![WhoJS](http://i.imgur.com/YapJIJk.png "An automated web user.")
 
 # WhoJS - Read Me
 _v0.0.1 - Dan Morgan, Jim Kogler, Neil Dahlke_
