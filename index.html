@@ -1,83 +1,353 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" href="stylesheets/bootstrap.css">
+    <link rel="stylesheet" href="stylesheets/application.css">
+    <link rel="shortcut icon" href="who.ico" />
+    <link rel="icon" type="image/ico" href="who.png">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <title>Whojs by globusonline</title>
+    <title>WhoJS</title>
   </head>
 
   <body>
-    <header>
-      <div class="inner">
-        <h1>Whojs</h1>
-        <h2>A library for emulating user navigation within a single page using JavaScript.</h2>
-        <a href="https://github.com/globusonline/whojs" class="button"><small>View project on</small>GitHub</a>
+    <a href="https://github.com/globusonline/whojs"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px;" src="http://aral.github.com/fork-me-on-github-retina-ribbons/right-grey@2x.png" alt="Fork me on GitHub"></a>
+    <div class="container-narrow">
+        <div class="header">
+            <ul class="nav nav-pills pull-right">
+              <li><a target="_blank" href="https://gist.github.com/neildahlke/7ce2ea3e476c04aa7ef7">Markdown</a></li>
+                <li><a target="_blank" href="https://gist.github.com/neildahlke/f2241c22b996e94d4cf9">Docs</a></li>
+            </ul>
+            <h3 class="text-muted">WhoJS</h3>
+        </div>
+        <div class="jumbotron">
+            <img style="height: 200px;" src="images/who_big.png" alt="WhoJS" />
+            <h1>WhoJS</h1>
+            <p class="lead">Behavior Driven JavaScript Browser Automation</p>
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-12">
+                <h2>Contents</h2>
+                <ol>
+                    <li><a href="#philosophy">Philosophy</a></li>
+                    <li>
+                        <a href="#getting_started">Getting Started</a>
+                    </li>
+                    <li>
+                      <a href="#using_whojs">Using WhoJS</a>
+                        <ol type="I">
+                          <li><a href="#setting_context">Setting Context</a></li>
+                          <li><a href="#reset_context">Reset Context</a></li>
+                            <li><a href="#typing_values">Typing Values Into a Form</a></li>
+                            <li><a href="#reading_values">Reading Values from a Form</a></li>
+                            <li><a href="#clicking_elements">Clicking Elements</a></li>
+                            <li><a href="#passing_time">Passing Time</a></li>
+                        </ol>
+                    </li>
+                    <!-- <li>
+                      <a href="#testing_frameworks">Usage with Testing Frameworks</a>
+                      <ol type="I">
+                          <li><a href="#working_with_jasmine">Working with Jasmine</a></li>
+                          <li><a href="#working_with_qunit">Working with QUnit</a></li>
+                        </ol>
+                    </li> -->
+                </ol>
+            </div>
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-12">
+                <h2><a name="philosophy">Philosophy</a></h2>
+                <p>WhoJS is a library aimed at making it simpler and more expressive for Front End Developers to test the displays fo their web page. Using WhoJS allows you to emulate user navigation within a single page using JavaScript, in a simple, easy to understand syntax.</p>
+            </div>
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-12">
+                <h2><a name="getting_started">Getting Started</a></h2>
+                <p>Grab yourself a copy of WhoJS from <a target="_blank" href="https://github.com/globusonline/whojs">GitHub</a> and include it in your page similar to this:</p>
+                <pre>
+
+&lt;script src="javascripts/who.js"&gt; &lt;/script&gt;
+                </pre>
+                <!-- <p>Alternatively, you can use Bower.</p>
+                <pre>
+
+bower install whojs
+                </pre> -->
+            </div>
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-12">
+                <h2><a name="using_whojs">Using WhoJS</a></h2>
+            </div>
+        </div>
+
+        <div class="row marketing" id="new_context_example">
+            <div class="col-lg-12">
+                <h4><a name="setting_context">Setting Context</a></h4>
+                <p>Setting context is useful for zoning in on a specific part of the page Who is looking at. Running this example will show you very quickly a shift in Who's context. You can see what part of the page Who is actively looking at by finding the blue highlighted area.</p>
+                <div class="runnable-code-block">
+                    <pre>
+
+Who.setContext('#new_context_example');
+
+                    </pre>
+                    <button class="btn btn-primary run-this">Run this code</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row marketing" id="new_context_example">
+            <div class="col-lg-12">
+                <h4><a name="reset_context">Reset Context</a></h4>
+                <p>Sometimes you want Who to be watching over the whole page. A quick reset of context can be achieved using <code>resetContext()</code>. You'll notice when you run this code that the context is shifted back to the <code>body</code>.</p>
+                <div class="runnable-code-block">
+                    <pre>
+
+Who.resetContext();
+
+                    </pre>
+                    <button class="btn btn-primary run-this">Run this code</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-12">
+                <h4><a name="typing_values">Typing Values Into a Form</a></h4>
+                <p>When a Who user wants to type a value into a form, there are two things they need. The text of the <code>label</code> they are looking for, and the input, which is the text that will be put into the field.</p>
+                <div class="runnable-code-block">
+                    <pre>
+
+Who.setContext('#typing_values_example');
+
+Who.typesValueIntoForm({
+  label : "Name",
+  input : "Neil Dahlke"
+});
+                    </pre>
+                    <button class="btn btn-primary run-this">Run this code</button>
+                </div>
+                <div class="example-area" id="typing_values_example">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="name" class="col-lg-2 control-label">Name</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Name" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-12">
+<!--
+            ```
+            HOWEVER IF YOU NEED IT TO BE CASE SENSITIVE YOU CAN PASS THE OPTION caseSensitive
+-->
+                <p>The labels are case insensitive, and can also be search by partial matches using the <code>findByPartial</code> flag.</p>
+                <div class="runnable-code-block">
+                    <pre>
+
+Who.setContext('#typing_values_example_2');
+
+Who.typesValueIntoForm({
+  label : "tail",
+  input : "Shark Fin",
+  findByPartial : true
+});
+
+
+// This will fail as there is no findByPartial flag
+
+Who.typesValueIntoForm({
+  label : "tail",
+  input : "Bottle Neck"
+});
+                    </pre>
+                    <button class="btn btn-primary run-this">Run this code</button>
+                </div>
+                <div class="example-area" id="typing_values_example_2">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="tail_shape" class="col-lg-2 control-label">Tail Shape</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="tail_shape" placeholder="Bottle Neck" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-12">
+                <h4><a name="clicking_elements">Clicking on elements</a></h4>
+                <div class="runnable-code-block">
+                    <pre>
+
+Who.setContext('#click_example');
+
+Who.clicksElement({
+  text : "Click Me!",
+  type : "a"
+});
+                    </pre>
+                    <button class="btn btn-primary run-this">Run this code</button>
+                </div>
+                <p>or you can specify links using the <code>LINK</code> keyword.</p>
+                <div class="runnable-code-block">
+                    <pre>
+
+Who.setContext('#click_example');
+
+Who.clicksElement({
+  text : "Click",
+  type : "LINK",
+  findByPartial : true
+});
+                    </pre>
+                    <button class="btn btn-primary run-this">Run this code</button>
+                </div>
+                <div class="example-area" id="click_example">
+                    <a onclick="alert('Anchor clicked!')">Click Me!</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-12">
+                <h4><a name="reading_values">Reading form values</a></h4>
+                <p>Often times you'll simply want Who to read in the form values, and for that, we have <code>readsFormValue</code>. In the example below, who will enter in a name, and then read it back to us.</p>
+                <div class="runnable-code-block">
+                    <pre>
+
+Who.setContext('#read_values_example');
+
+Who.typesValueIntoForm({
+  label : "my name",
+  input : "J Dilla",
+  findByPartial : true
+});
+
+var formVal = Who.readsFormValue({
+  label : "My NaMe Is:"
+});
+
+alert('Hi '+(formVal||"Who")+'!');
+                    </pre>
+
+                    <button class="btn btn-primary run-this">Run this code</button>
+                </div>
+                <div class="example-area" id="read_values_example">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="hi_there" class="col-lg-2 control-label">My name is:</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" name="hi_there" id="hi_there" placeholder="Davey Crocket"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row marketing" id="passing_time_example">
+            <div class="col-lg-12">
+                <h4><a name="passing_time">Passing time</a></h4>
+                <p>When you need Who to chill for a moment, maybe while you're fetching some things with AJAX, you can use <code>passesTime</code> with the option <code>thenWho</code> as a required callback for when Who finishes waiting.</p>
+                <div class="runnable-code-block">
+                    <pre>
+
+Who.setContext('#passing_time_example');
+
+var _start = new Date();
+
+Who.passesTime({
+  ms : 2000,
+  thenWho : function() {
+    var _end = new Date(),
+      _waited = ((_end - _start)/1000);
+    alert("Who waited "+_waited+" seconds!");
+  }
+});
+
+                    </pre>
+                    <button class="btn btn-primary run-this">Run this code</button>
+              </div>
+          </div>
       </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <!-- <div class="row marketing">
+            <div class="col-lg-12">
+                <h2><a name="testing_frameworks">Usage with Testing Frameworks</h2>
+            </div>
+        </div>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+        <div class="row marketing">
+            <div class="col-lg-12">
+                <h3><a name="working_with_jasmine">Working with <a href="http://pivotal.github.io/jasmine/" target="_blank">Jasmine</a></a></h3>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+                <p> Accoring to Jasmine's own GitHub page, <em>"Jasmine is a behavior-driven development framework for testing JavaScript code"</em>. Bearing that in mind, WhoJS is a perfect match for Jasmine's behavior driven philosophy. Using Who becomes as simple as thinking of Who as the user who's behavior is being tested. To show you how simple it is to integrate Who and Jasmine, we've prepared a Who script below that walks through all of the features of this tutorial page. Be sure to read through this short little script and when you feel confident in what it's up to, go ahead and run the code!</p>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+                <div class="runnable-code-block">
+                  <pre>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+describe("WhoJS Tutorial Site Test", function() {
+  it("Has shown the images that we needed to load from google.", function() {
+    // TODO: expect there to be more than 2 divs in a given context.
+    expect(true).toBe(true);
+  });
+});
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+                  </pre>
+                  <button class="btn btn-primary run-this">Run this code</button>
+                </div>
+            </div>
+        </div>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+        <div class="row marketing">
+            <div class="col-lg-12">
+                <h3><a name="working_with_qunit">Working with <a href="http://pivotal.github.io/jasmine/" target="_blank">QUnit</a></a></h3>
+                  <pre>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+test( "hello test", function() {
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+  ok( 1 == "1", "Passed!" );
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+});
+          </pre>
+            </div>
+        </div>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-        </section>
+        <div class="row marketing">
+            <div class="col-lg-12">
 
-        <aside id="sidebar">
-          <a href="https://github.com/globusonline/whojs/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/globusonline/whojs/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+            </div>
+        </div> -->
 
-          <p class="repo-owner"><a href="https://github.com/globusonline/whojs"></a> is maintained by <a href="https://github.com/globusonline">globusonline</a>.</p>
+        <div class="footer">
+          <a target="_blank" href="http://twitter.com/thatdanmorgan"><div class="label success">@thatdanmorgan</div>
+          <a target="_blank" href="http://twitter.com/koglerjs"><div class="label success">@koglerjs</div>
+          <a target="_blank" href="http://twitter.com/neildahlke"><div class="label success">@neildahlke</div>
+          <h6 class="text-muted"><a target="_blank" href="http://dev.globus.org/"><img id="globus_dev" style="height: 40px;" src="images/globus_dev.svg" alt="Globus Dev" />Globus Dev</a></h6>
+            <p>&copy; 2010-2013 <a target="_blank" href="www.ci.anl.gov/">Computation Institute</a>, <a target="_blank" href="http://uchicago.edu">University of Chicago</a>, <a target="_blank" href="http://anl.gov">Argonne National Laboratory</a></p>
+        </div>
 
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
     </div>
 
-  
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jasmine/1.3.1/jasmine.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jasmine/1.3.1/jasmine-html.js"></script>
+    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/qunit/1.11.0/qunit.min.js"></script> -->
+    <script src="javascripts/who.js"></script>
+    <script src="javascripts/app.js"></script>
+
   </body>
 </html>
