@@ -13,4 +13,6 @@ git clone git@github.com:globusonline/whojs.git
 Please feel to contribute as much or as little as you would like to Who. Any bugs or ideas for features should be posted on our [issues page](https://github.com/globusonline/whojs/issues).
 
 ### How to use WhoJS.
-For a short tutorial on the use cases for WhoJS, visit the _[WhoJS Homepage](http://globusonline.github.io/whojs/)_.
+For a short tutorial on the use cases for WhoJS, visit the [WhoJS Homepage](http://globusonline.github.io/whojs/).
+
+For more in-depth documentation, refer to the [WhoJS API](https://gist.github.com/neildahlke/f2241c22b996e94d4cf9).
