@@ -15,25 +15,24 @@
     @version 0.0.1
 */
 
-// TODO check that it is actually on screen (withing view port).
-// TODO convert to raw JS (no jQ dependency)
-// TODO Logger class
-// TODO: Reading/Writing to type="password" inputs?
-
 var Q = {
         LINK : "a",
         BUTTON : "button,input[type=button],input[type=submit]",
-        FORM_INPUT : "input,textarea,select",
+        INPUT : "input,textarea,select",
+
+        // _caseFunc : function(x) {
+        //     x = x || "";
+        //     return x.toLowerCase();
+        // },
 
         findEl : function(data) {
             var els = this.findEls(data);
             if (els.length == 1) {
                 return els[0];
             } else {
-                data.error = "Too many elements found for query " + data.query;
+                console.log('Too many elements found for ' + data.query);
                 return null;
             }
-
         },
 
         findEls : function(data) {
@@ -92,18 +91,19 @@ var Q = {
             return _retVal;
         },
 
+        // TODO: Consolidate this function and findValueByPlaceholderText
         findValueByLabel : function(data) {
             var _caseFunc = function(x) { return x; },
-                _matchingField = null,
+                _$matchingField = null,
                 _self = this,
                 _valueType = data.valueType || 'input';
+
+            data.visible = true;
+            data.type = 'label';
 
             if (!data.label) {
                 return false;
             }
-
-            data.visible = true;
-            data.type = 'label';
 
             if (!data.caseSensitive) {
                 _caseFunc = function(x) {
@@ -117,31 +117,77 @@ var Q = {
             for(var i = 0; i < _labels.length; i++) {
                 var $label = $(_labels[i]),
                     _labelText = _caseFunc($label.html()),
+                    _forInput = $label.attr('for') || null,
                     _match = false,
                     _partial = (!!data.findByPartial) ? data.findByPartial : false;
 
                 if (_partial) {
                     _match = (_labelText.indexOf(_text) != -1);
-                    console.log(_labelText, _text, _match);
                 } else {
                     _match =  (_labelText == _text);
                 }
 
 
+                if (!_forInput) {
+                    console.log("The label you are looking for must have a for tag that corresponds to it's input.");
+                }
 
                 if (_match) {
+                    _$matchingField = $(_valueType+'[name="'+_forInput+'"]');
+                    _$matchingField = _$matchingField.length === 0 ? $('#'+_forInput) : _$matchingField;
+                    _$matchingField = _$matchingField.length === 0 ? $('.'+_forInput) : _$matchingField;
+                    break;
+                }
 
-                    _matchingField = $(_valueType+'[name="'+$label.attr('for')+'"]') ||
-                                     $(_valueType+'#'+$label.attr('for')) ||
-                                     $(_valueType+'.'+$label.attr('for'));
+            }
 
-                    // TODO: Determine whether or not a catch all like this is useful.
-                    // _matchingField = _matchingField.length === 0 ? $label.siblings(_valueType) : _matchingField;
-                    // _matchingField = _matchingField.length === 0 ? $label.closest(_valueType) : _matchingField;
+            return _$matchingField;
+        },
+
+        findValueByPlaceholderText : function(data) {
+
+            var _caseFunc = function(x) { return x; },
+                _$matchingField = null,
+                _self = this,
+                _valueType = data.valueType || 'input',
+                _inputs = null,
+                _placeholderText = null;
+
+            if (!data.placeholderText) {
+                return false;
+            }
+
+            if (!data.caseSensitive) {
+                _caseFunc = function(x) {
+                    x = x || "";
+                    return x.toLowerCase();
+                };
+            }
+
+            data.visible = true;
+            data.type = 'INPUT';
+
+            _inputs = this.findEls(data);
+            _placeholderText = _caseFunc(data.placeholderText);
+
+            for(var i = 0; i < _inputs.length; i++) {
+                var $input = $(_inputs[i]),
+                    _inputPlaceholder = _caseFunc($input.attr('placeholder')),
+                    _match = false,
+                    _partial = (!!data.findByPartial) ? data.findByPartial : false;
+
+                if (_partial) {
+                    _match = (_inputPlaceholder.indexOf(_placeholderText) != -1);
+                } else {
+                    _match =  (_inputPlaceholder == _placeholderText);
+                }
+
+                if (_match) {
+                    _$matchingField = $input;
                 }
             }
 
-            return _matchingField;
+            return _$matchingField;
         },
 
         mergeFind : function(data) {
@@ -166,16 +212,19 @@ var Q = {
     };
 
 (function() {
+
     window.Who = window.Who || {
 
         clearsInput : function(data) {
-            // TODO: Implement this method.
-            var _el = Q.findValueByLabel(data);
 
+            // TODO: How does this react with checkboxes/radios/selects?
+
+            var _el = Q.findValueByLabel(data);
+            console.log('label')
             if (_el && _el.length == 1) {
                 _el.val("");
             } else {
-                console.log("There were too many inputs to clear. Try making your query more specific.");
+                console.log("Incorrect number of inputs returned.");
             }
         },
 
@@ -186,11 +235,15 @@ var Q = {
 
         clicksElement : function(data) {
 
+            // TODO: determine how I want to handle elements that have no text and only have icons.
+
             var ele;
             if (!!data.text) {
                 ele = Q.findElWithText(data);
             } else if (!!data.label) {
                 ele = Q.findValueByLabel(data);
+            } else if (!!data.placeholderText) {
+                ele = Q.findValueByPlaceholderText(data);
             } else {
                 ele = Q.findEl(data);
             }
@@ -205,9 +258,17 @@ var Q = {
                     if (el.click) {
                         el.click();
                         // TODO: This is some coolness! It'll show where the user clicked, but there is something
-                        // going on with the closure I have to debug.
-                        // $('#click_spot').remove();
-                        // $('<div id="click_spot"/>').appendTo('body').css({left:event.x, top:event.y}).fadeOut();
+                        // going on that needs debugging.
+                        $('#click_spot').remove();
+                        $('<div id="click_spot"/>').appendTo('body')
+                            .css({
+                                left : event.x,
+                                top : event.y,
+                                height : '50px',
+                                width : '50px',
+                                'border-radius' : '50%'
+                            })
+                           .fadeOut();
                     } else {
                         data.status = false;
                         data.exception = "Click was not a function.";
@@ -231,7 +292,48 @@ var Q = {
 
 
         hoversOver : function(data) {
-            // TODO: Implement this method.
+            // TODO: Combine like functionality of clicksElement
+            var ele;
+            if (!!data.text) {
+                ele = Q.findElWithText(data);
+            } else if (!!data.label) {
+                ele = Q.findValueByLabel(data);
+            } else if (!!data.placeholderText) {
+                ele = Q.findValueByPlaceholderText(data);
+            } else {
+                ele = Q.findEl(data);
+            }
+
+            if (!!ele && ele.length > 0) {
+                data.status = true;
+                try {
+                    var $el = $(ele[0]);
+                    if ($el.mouseover) {
+                        $el.mouseover();
+
+                        if (data.msToOut) {
+                            setTimeout(function(){
+                                $el.mouseout();
+                            }, data.msToOut);
+                        }
+                    } else {
+                        data.status = false;
+                        data.exception = "Mouseover was not a function.";
+                    }
+
+                } catch(Exception) {
+                    data.status = false;
+                    data.exception = Exception;
+                }
+
+            } else {
+
+                data.status = false;
+                data.exception = data.query + " not found";
+
+            }
+
+            return data.status;
         },
 
         passesTime : function(data) {
@@ -245,9 +347,8 @@ var Q = {
         },
 
         readsFormValue : function(data) {
-            data.type = data.type || 'label';
             var element = Q.findValueByLabel(data);
-            console.log(element);
+
             if (element && element.length) {
                 return element.val();
             }
@@ -258,14 +359,38 @@ var Q = {
             this.setContext("body");
         },
 
-        seesElementWithPlaceholderText : function(data) {
-            // TODO: Implement this method
+        seesElWithPlaceholderText : function(data) {
+            var $el = $(Q.findValueByPlaceholderText(data));
+            return ($el && ($el.length == 1));
         },
 
         seesElementWithText : function(data) {
             data.visible = true;
             var element = Q.findElWithText(data);
             return (element && element.length == 1);
+        },
+
+        seesImages : function(data) {
+            data = data || {};
+            data.type = "img";
+            data.numImages = data.numImages || 1;
+            data.visible = true;
+            var $el = $(Q.findEl(data));
+
+            // TODO: add option withAltTag
+
+            // var _isVisible = false;
+            // $el.load(function(){
+            //         alert('Good image!');
+            //         _isVisible = true;
+            //         return true;
+            //     })
+            //     .error(function(){
+            //         alert('Bad image!');
+            //         return false;
+            //     });
+
+            return ($el && $el.length == data.numImages);
         },
 
         clicksRadioButton : function(data) {
@@ -294,6 +419,8 @@ var Q = {
             // TODO: Error messaging if select box or option were not found.
         },
 
+        // TODO seesXElements
+
         setContext : function(context) {
             this.context = Q.context = $(context);
             $('*').removeClass('who-context');
@@ -302,7 +429,16 @@ var Q = {
 
         typesValueIntoForm : function(data) {
             data.type = data.type || 'label';
-            var $el = Q.findValueByLabel(data);
+
+            var $el;
+
+            if (data.label) {
+                $el = Q.findValueByLabel(data);
+            } else if (!!data.placeholderText) {
+                $el = Q.findValueByPlaceholderText(data);
+            } else {
+                $el = Q.findEl(data);
+            }
 
             if (!$el) {
                 return false;
@@ -321,6 +457,29 @@ var Q = {
             }
         },
 
+        typesEnterKey : function(data) {
+
+            var $el;
+
+            if (!!data.label) {
+                $el = Q.findValueByLabel(data);
+            } else if (!!data.placeholderText) {
+                $el = Q.findValueByPlaceholderText(data);
+            } else {
+                $el = Q.findEl(data);
+            }
+
+            if (!$el) {
+                return false;
+            }
+
+            // var e = jQuery.Event("keypress");
+            // e.which = 13;
+            // e.keyCode = 13;
+            // $el.trigger(e);
+            $el.parents('form').submit();
+        },
+
         DEV : {
 
             findHiddenInputThroughInspection : function(data) {
@@ -330,11 +489,17 @@ var Q = {
             },
 
             findElByID : function(data) {
-                // TODO: Implement this method.
+                if (!data.id) {
+                    throw new Error("Method requires an ID to be passed in.");
+                }
+                return ($('#'+data.id));
             },
 
             findElByClass : function(data) {
-                // TODO: Implement this method.
+                if (!data.className) {
+                    throw new Error("Method requires an className to be passed in.");
+                }
+                return ($('.'+data.id));
             },
 
             clearAllInputs : function() {

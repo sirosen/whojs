@@ -29,4 +29,19 @@ $(document).ready(function() {
 	function execJasmine() {
 		jasmineEnv.execute();
 	}
+
+	$('.hover_example_box').hover(function(){
+			$(this).html('BRAH!');
+		},function() {
+			$(this).html('SICK!');
+		}
+	);
+
+
+	$('#sidebar').width(($('#sidebar_container').width()-30));
+
+	$(window).resize(function() {
+		$('#sidebar').width(($('#sidebar_container').width()-30));
+	});
+
 });
