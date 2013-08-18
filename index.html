@@ -2,36 +2,41 @@
 <html>
 
 	<head>
-		<link rel="stylesheet" href="stylesheets/bootstrap.css">
+		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css" rel="stylesheet">
 		<link rel="stylesheet" href="stylesheets/application.css">
-		<link rel="shortcut icon" href="who.ico" />
-		<link rel="icon" type="image/ico" href="who.png">
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 
 		<title>WhoJS</title>
 	</head>
 
-	<body data-spy="scroll" data-target="#sidebar">
-		<!-- <a href="https://github.com/globusonline/whojs"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px;" src="http://aral.github.com/fork-me-on-github-retina-ribbons/right-grey@2x.png" alt="Fork me on GitHub"></a> -->
+	<body data-spy="scroll" data-target="#sidebar_container">
 		<div class="container">
 
-		    <div class="header">
-		        <ul class="nav nav-pills pull-right">
-		        	<li><a target="_blank" href="https://gist.github.com/neildahlke/7ce2ea3e476c04aa7ef7">Markdown</a></li>
-		            <li><a target="_blank" href="https://gist.github.com/neildahlke/f2241c22b996e94d4cf9">Docs</a></li>
-		            <li><a target="_blank" href="https://github.com/globusonline/whojs/">GitHub</a></li>
-
-		        </ul>
-		        <h3 class="text-muted">WhoJS</h3>
-		    </div>
-
 		    <div class="jumbotron">
+		    	<!--
+				<div class="jumbotron stars">
+			    	<div id="background"></div>
+					<div id="midground"></div>
+					<div id="foreground"></div>
+				-->
 		        <img style="height: 200px;" src="images/who_big.png" alt="WhoJS" />
 		        <h1>WhoJS</h1>
-		        <p class="lead">Behavior Driven JavaScript Browser Automation</p>
+		        <p class="lead">
+		        	Behavior Driven JavaScript Browser Automation
+		        </p>
+		       	<p class="lead buttons">
+		        	<a class="btn btn-default btn-block" target="_blank" href="https://github.com/globusonline/whojs/blob/master/API.md"><span class="glyphicon glyphicon-book"/> Docs (v0.0.1)</a>
+		        	<a class="btn btn-primary btn-block"  target="_blank" href="https://github.com/globusonline/whojs"><span class="glyphicon glyphicon-download-alt"/> Get It On GitHub</a>
+		        </p>
 		    </div>
 
 			<div class="col-lg-3" id="sidebar_container">
-				<ul class="nav nav-list sidenav" id="sidebar" data-spy="affix" data-offset-top="590">
+				<div id="scrolled_logo">
+					<img style="height: 30px;" src="images/who_big.png" alt="WhoJS" />
+					<span class="text-muted">WhoJS</span>
+				</div>
+				<ul class="nav nav-list sidenav" id="sidebar" data-spy="affix" data-offset-top="630" data-offset-bottom="150">
 	                <li><a href="#philosophy">Philosophy</a></li>
 	                <li><a href="#getting_started">Getting Started</a></li>
 	               	<li><a href="#using_whojs">Using WhoJS</a>
@@ -39,6 +44,7 @@
 	                    	<li><a href="#setting_context">Setting Context</a></li>
 	                    	<li><a href="#reset_context">Reset Context</a></li>
 	                        <li><a href="#typing_values">Typing Values Into a Form</a></li>
+	                        <li><a href="#typing_enter">Typing the Enter Key</a></li>
 	                        <li><a href="#clicking_elements">Clicking on Elements</a></li>
 	                        <li><a href="#clicking_elements_shortcuts">Clicking on Elements Shortcuts</a></li>
 	                        <li><a href="#reading_values">Reading Values from a Form</a></li>
@@ -47,6 +53,7 @@
 	                        <li><a href="#clearing_inputs">Clearing Inputs</a></li>
 	                        <li><a href="#sees_element_with_text">Sees an Element with Text</a></li>
 	                        <li><a href="#sees_element_with_placeholder_text">Sees an Element with Placeholder Text</a></li>
+	                        <li><a href="#seeing_images">Seeing Images</a></li>
 	                        <li><a href="#selects_from_dropdown">Selects From Dropdown</a></li>
 	                    </ul>
 	                </li>
@@ -57,7 +64,7 @@
 
 			    <div class="row marketing">
 		            <h2><a name="philosophy" id="philosophy">Philosophy</a></h2>
-		            <p>WhoJS is a library aimed at making it simpler and more expressive for Front End Developers to test the displays fo their web page. Using WhoJS allows you to emulate user navigation within a single page using JavaScript, in a simple, easy to understand syntax. It's easy to inspect the DOM for elements, but we want to make sure Who is seeing exactly what the user is seeing.</p>
+		            <p>WhoJS is a library aimed at making it simpler and more expressive for Front End Developers to test the displays fo their web page. Using WhoJS allows you to emulate user navigation within a single page using JavaScript, in a simple, easy to understand syntax. It's easy to inspect the DOM for elements, but we want to make sure <code>Who</code> is seeing exactly what the user is seeing.</p>
 			    </div>
 
 			    <div class="row marketing">
@@ -75,7 +82,7 @@
 
 			    <div class="row marketing" id="new_context_example">
 		            <h4><a name="setting_context" id="setting_context">Setting Context</a></h4>
-		            <p>Setting context is useful for zoning in on a specific part of the page Who is looking at. Running this example will show you very quickly a shift in Who's context. You can see what part of the page Who is actively looking at by finding the blue highlighted area.</p>
+		            <p>Setting context is useful for zoning in on a specific part of the page <code>Who</code> is looking at. Running this example will quickly show you a shift in Who's context. The part of the page that <code>Who</code> is actively looking is outlined in blue. You must set this style for yourself, by overriding the CSS class <code>.who-context</code>.</p>
 		            <div class="runnable-code-block">
 		                <pre>
 
@@ -88,7 +95,7 @@ Who.setContext('#new_context_example');
 
 			    <div class="row marketing" id="new_context_example">
 		            <h4><a name="reset_context" id="reset_context">Reset Context</a></h4>
-		            <p>Sometimes you want Who to be watching over the whole page. A quick reset of context can be achieved using <code>resetContext()</code>. You'll notice when you run this code that the context is shifted back to the <code>body</code>.</p>
+		            <p>Sometimes you want <code>Who</code> to be watching over the whole page. A quick reset of context can be achieved using <code>resetContext()</code>. You'll notice when you run this code that the context is shifted back to the <code>body</code>.</p>
 		            <div class="runnable-code-block">
 		                <pre>
 
@@ -101,7 +108,7 @@ Who.resetContext();
 
 			    <div class="row marketing">
 		            <h4><a name="typing_values" id="typing_values">Typing Values Into a Form</a></h4>
-		            <p>When a Who user wants to type a value into a form, there are two things they need. The text of the <code>label</code> they are looking for, and the input, which is the text that will be put into the field.</p>
+		            <p>When a <code>Who</code> user wants to type a value into a <code>form</code>, there are two things they need. The text of the <code>label</code> they are looking for, and the <code>text</code>, which is the string that will be entered into the field.</p>
 		            <div class="runnable-code-block">
 		                <pre>
 
@@ -131,7 +138,7 @@ Who.typesValueIntoForm({
 			        ```
 			        HOWEVER IF YOU NEED IT TO BE CASE SENSITIVE YOU CAN PASS THE OPTION caseSensitive
 	-->
-		            <p>The labels are case insensitive, and can also be search by partial matches using the <code>findByPartial</code> flag.</p>
+		            <p>By default, the labels are case insensitive. This can be overriden by setting the <code>caseSensitive</code> option to <code>true</code> and can also be search by partial matches using the <code>findByPartial</code> flag.</p>
 		            <div class="runnable-code-block">
 		                <pre>
 
@@ -142,11 +149,6 @@ Who.typesValueIntoForm({
 	text : "Shark Fin",
 	findByPartial : true
 });
-
-
-
-// TODO: findByPlaceholderExample
-
 
 // This will fail as there is no findByPartial flag
 
@@ -168,6 +170,49 @@ Who.typesValueIntoForm({
 		                </form>
 		            </div>
 			    </div>
+
+			    <div class="row marketing">
+			    <h4><a name="typing_enter" id="typing_enter">Typing the Enter Key</a></h4>
+		            <p></p>
+		            <div class="runnable-code-block">
+		                <pre>
+
+Who.setContext('#typing_enter_example');
+
+Who.typesValueIntoForm({
+	label : "Alley",
+	text : "Oop",
+	findByPartial : true
+});
+
+Who.typesEnterKey({
+	label : "Alley",
+	findByPartial : true
+});
+
+		                </pre>
+		                <button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+		            <div class="example-area" id="typing_enter_example">
+		                <form class="form-horizontal">
+		                    <div class="form-group">
+		                        <label for="alley" class="col-lg-2 control-label">Alley</label>
+		                        <div class="col-lg-10">
+		                            <input type="text" class="form-control" id="alley" placeholder="Who? Hello?" />
+		                        </div>
+		                    </div>
+
+		                    <div class="form-group">
+		                        <label class="col-lg-2 control-label"></label>
+		                        <div class="col-lg-10">
+		                            <button type="submit" class="form-control" >Submit</button>
+		                        </div>
+		                    </div>
+
+		                </form>
+		            </div>
+			    </div>
+
 
 			    <div class="row marketing">
 		            <h4><a name="clicking_elements" id="clicking_elements">Clicking on elements</a></h4>
@@ -204,25 +249,79 @@ Who.clicksElement({
 
 			    <div class="row marketing">
 		            <h4><a name="clicking_elements_shortcuts" id="clicking_elements_shortcuts">Shortcuts for clicking on buttons and links.</a></h4>
+		            <p>When you are writing several <code>Who</code> tests at a time, you may want to have some shortcuts. For clicking on frequently clicked elements, like <code>button</code>s and <code>a</code>nchors, <code>Who</code> provides <code>clicksButton</code> and <code>clicksLink</code>.</p>
 		            <div class="runnable-code-block">
 		                <pre>
 
 Who.setContext('#click_shortcut_example');
 
 Who.clicksButton({text : "Click Me!"});
+						</pre>
+						<button class="btn btn-primary run-this">Run this code</button>
+					</div>
+
+					<p>You can also use the same syntax for clicking on an <code>a</code>nchor.</p>
+
+					<div class="runnable-code-block">
+						<pre>
+
+Who.setContext('#click_shortcut_example');
+
 Who.clicksLink({text : "Click Me Too!"});
 		                </pre>
 		                <button class="btn btn-primary run-this">Run this code</button>
 		            </div>
+
+		            <p>It even works with <code>checkbox</code>es and <code>radio</code> buttons.</p>
+		            <div class="runnable-code-block">
+						<pre>
+
+Who.setContext('#click_shortcut_example');
+
+Who.clicksCheckbox({label : "Me too?"});
+
+Who.clicksRadio({label : "No", findByPartial : true});
+
+		                </pre>
+		                <button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+
 		            <div class="example-area" id="click_shortcut_example">
-		                <button class="btn" onclick="alert('Button clicked with shortcut!')">Click Me!</button>
-		                <a onclick="alert('Anchor clicked with shortcut!')">Click Me Too!</a>
+		                <form class="form-horizontal">
+		                	<div class="form-group">
+		                        <label class="col-lg-2 control-label"></label>
+		                        <div class="col-lg-10">
+		                			<button class="btn" onclick="alert('Button clicked with shortcut!')">Click Me!</button>
+		                        </div>
+		                    </div>
+		                    <div class="form-group">
+		                        <label class="col-lg-2 control-label"></label>
+		                        <div class="col-lg-10">
+		                			<a onclick="alert('Anchor clicked with shortcut!')">Click Me Too!</a>
+		                        </div>
+		                    </div>
+		                    <div class="form-group">
+		                        <label for="click_me_check" class="col-lg-2 control-label">Me too?</label>
+		                        <div class="col-lg-10">
+		                            <input type="checkbox" name="click_me_check" id="click_me_check">
+		                        </div>
+		                    </div>
+		                    <div class="form-group">
+		                        <label class="col-lg-2 control-label">Tired yet?</label>
+		                        <div class="col-lg-10">
+		                        	<label for="click_me_rad_yes">Yes, I am.</label>
+		                            <input for="tired_" type="radio" name="click_me_rad" id="click_me_rad_yes" value="Yes">
+		                            <label for="click_me_rad_no">No, not yet!</label>
+		                            <input type="radio" name="click_me_rad" id="click_me_rad_no" value="No">
+		                        </div>
+		                    </div>
+		                </form>
 		            </div>
 			    </div>
 
 			    <div class="row marketing">
 		            <h4><a name="reading_values" id="reading_values">Reading form values</a></h4>
-		            <p>Often times you'll simply want Who to read in the form values, and for that, we have <code>readsFormValue</code>. In the example below, who will enter in a name, and then read it back to us.</p>
+		            <p>Often times you'll simply want <code>Who</code> to read in the form values, and for that, we have <code>readsFormValue</code>. In the example below, who will enter in a name, and then read it back to us.</p>
 		            <div class="runnable-code-block">
 		                <pre>
 
@@ -257,7 +356,7 @@ alert('Hi '+(formVal||"Who")+'!');
 
 			    <div class="row marketing" id="passing_time_example">
 		            <h4><a name="passing_time" id="passing_time">Passing time</a></h4>
-		            <p>When you need Who to chill for a moment, maybe while you're fetching some things with AJAX, you can use <code>passesTime</code> with the option <code>thenWho</code> as a required callback for when Who finishes waiting.</p>
+		            <p>When you need <code>Who</code> to chill for a moment, maybe while you're fetching some things with AJAX, you can use <code>passesTime</code> with the option <code>thenWho</code> as a required callback for when <code>Who</code> finishes waiting.</p>
 		            <div class="runnable-code-block">
 		                <pre>
 
@@ -385,6 +484,29 @@ _seesFavoriteFootballTeam == true ? alert('Now you know.') : null;
 		            </div>
 			    </div>
 
+
+			    <div class="row marketing">
+		            <h4><a name="seeing_images" id="seeing_images">Seeing Images</a></h4>
+		            <p></p>
+		            <div class="runnable-code-block">
+		                <pre>
+
+Who.setContext('#sees_image_example');
+
+var _seesImage = Who.seesImages();
+
+_seesImage == true ? alert('"I see", said the blind man.') : null;
+
+		                </pre>
+
+		                <button class="btn btn-primary run-this">Run this code</button>
+		            </div>
+		            <div class="example-area" id="sees_image_example">
+		                <img src="images/moon.png" alt="Dancing on the Moon: A dream by all of us." />
+		            </div>
+			    </div>
+
+
 			    <div class="row marketing">
 		            <h4><a name="selects_from_dropdown" id="selects_from_dropdown">Selects from Dropdown</a></h4>
 		            <p></p>
@@ -424,9 +546,9 @@ Who.selectsFromDropDown({
 
 		    <div class="footer">
 		    	<h6 class="text-muted"><a target="_blank" href="http://dev.globus.org/"><img id="globus_dev" style="height: 40px;" src="images/globus_dev.svg" alt="Globus Dev" />Globus Dev</a>
-		    	<a target="_blank" href="http://twitter.com/thatdanmorgan"><div class="label success twitter">@thatdanmorgan</div></a>
-		    	<a target="_blank" href="http://twitter.com/koglerjs"><div class="label success twitter">@koglerjs</div></a>
-		    	<a target="_blank" href="http://twitter.com/neildahlke"><div class="label success twitter">@neildahlke</div></a>
+		    	<button class="btn btn-xs btn-default twitter" target="_blank" href="http://twitter.com/thatdanmorgan">@thatdanmorgan</button>
+		    	<button class="btn btn-xs btn-default" target="_blank" href="http://twitter.com/koglerjs">@koglerjs</button>
+		    	<button class="btn btn-xs btn-default" target="_blank" href="http://twitter.com/neildahlke">@neildahlke</button>
 		    	</h6>
 		        <p>&copy; 2010-2013 <a target="_blank" href="http://www.ci.anl.gov/">Computation Institute</a>, <a target="_blank" href="http://uchicago.edu">University of Chicago</a>, <a target="_blank" href="http://anl.gov">Argonne National Laboratory</a></p>
 		    </div>

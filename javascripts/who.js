@@ -216,9 +216,6 @@ var Q = {
     window.Who = window.Who || {
 
         clearsInput : function(data) {
-
-            // TODO: How does this react with checkboxes/radios/selects?
-
             var _el = Q.findValueByLabel(data);
             console.log('label')
             if (_el && _el.length == 1) {
@@ -230,6 +227,11 @@ var Q = {
 
         clicksButton : function(data) {
             data.type = "BUTTON";
+            this.clicksElement(data);
+        },
+
+        clicksCheckbox : function(data) {
+            data.type = 'input[type="checkbox"]';
             this.clicksElement(data);
         },
 
@@ -247,6 +249,8 @@ var Q = {
             } else {
                 ele = Q.findEl(data);
             }
+
+
 
             data.message = data.message || "ACTION - click @type@ with @text@";
 
@@ -290,6 +294,10 @@ var Q = {
             this.clicksElement(data);
         },
 
+        clicksRadio : function(data) {
+            data.type = 'input[type="radio"]';
+            this.clicksElement(data);
+        },
 
         hoversOver : function(data) {
             // TODO: Combine like functionality of clicksElement
@@ -393,14 +401,6 @@ var Q = {
             return ($el && $el.length == data.numImages);
         },
 
-        clicksRadioButton : function(data) {
-            // TODO: implement this method
-        },
-
-        clicksCheckbox : function(data) {
-            // TODO: implement this method
-        },
-
         selectsFromDropDown : function(data) {
 
             data.valueType = 'select';
@@ -413,13 +413,14 @@ var Q = {
                 var _optLabel = _box[i].label;
                 if (_optionText === _optLabel) {
                     $(_box).val(_box[i].value);
+                    _match = true;
                 }
             }
 
-            // TODO: Error messaging if select box or option were not found.
+            if (!_match) {
+                console.log('Who is unable to match the dropdown and option text.');
+            }
         },
-
-        // TODO seesXElements
 
         setContext : function(context) {
             this.context = Q.context = $(context);

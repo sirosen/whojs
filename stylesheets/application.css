@@ -23,20 +23,31 @@ body {
     padding-top: 19px;
     text-align: center;
 }
-.container-narrow {
-    margin: 0 auto;
-    max-width: 700px;
-}
-.container-narrow > hr {
-    margin: 30px 0;
+.container {
+    clear: both;
 }
 .jumbotron {
     border-bottom: 1px solid #E5E5E5;
     text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+.jumbotron.stars h1,
+.jumbotron.stars img,
+.jumbotron.stars p {
+    z-index: 5;
+    position: relative;
+    color: #fff;
 }
 .jumbotron .btn {
+    z-index: 5;
     font-size: 21px;
     padding: 14px 24px;
+}
+.lead.buttons {
+    margin-top: 45px;
+    max-width: 275px;
+    margin: 45px auto 0;
 }
 .marketing {
     margin: 40px 0;
@@ -64,6 +75,7 @@ body {
     margin: 0 0 -1px;
     padding: 45px 15px 15px;
     position: relative;
+    border-radius: 10px;
 }
 
 .example-area:after {
@@ -169,6 +181,19 @@ body {
     color: #fff;
 }
 
+.col-lg-10 label {
+    font-weight: normal;
+    padding: 7px 0 0 0;
+}
+
+.col-lg-10 input[type="checkbox"] {
+    margin-top: 10px;
+}
+
+.col-lg-10 input[type="radio"]{
+    margin-right: 10px;
+}
+
 .jumbotron {
     background-image: url('../images/dimension.png');
     /*
@@ -194,17 +219,6 @@ body {
     margin-left: 30px;
 }
 
-.twitter:hover {
-    background:#3399f3;
-    -webkit-transition : background 500ms ease-out;
-    -moz-transition : background 500ms ease-out;
-    -o-transition : background 500ms ease-out;
-}
-
-.twitter a:hover {
-    text-decoration: none;
-}
-
 #click_spot {
     position: fixed;
     z-index: 100;
@@ -215,6 +229,15 @@ body {
     margin-top: -25px;
     display: block;
     background: #3399f3;
+}
+
+#sees_image_example {
+    text-align:  center;
+}
+
+#sees_image_example img {
+    width: 300px;
+    height: auto;
 }
 
 .hover_example_box {
@@ -242,11 +265,22 @@ body {
 
 }
 
+#sidebar {
+    overflow: hidden;
+    border-radius: 10px;
+}
+
 .sidenav {
     margin-top: 50px;
     background: #fff;
     border: 1px solid #eee;
-    font-size: 12px;
+    font-size: 11px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.subnav>li>a {
+    padding: 5px;
 }
 
 .sidenav li.active {
@@ -254,10 +288,11 @@ body {
 }
 
 .sidenav .subnav li.active {
-    border-right: 4px solid #3399f3;
+    border-right: 3px solid #860707;
 }
 
 .subnav {
+    border-radius: 0 0 10px 0;
     padding-left: 15px;
     background: #f9f9f9;
 }
@@ -273,39 +308,70 @@ body {
     float: right;
 }
 
+
+.affix {
+    position: relative;
+}
+
+.affix-bottom {
+    /*bottom: 100px;*/
+    position: fixed;
+}
+
+#scrolled_logo {
+    display: none;
+    position: fixed;
+    top: 20px;
+    margin-left: 15px;
+}
+
+#scrolled_logo span {
+    position: relative;
+    font-size: 24px;
+    top: 5px;
+    left: 10px;
+}
+
+@media (min-width: 480px) {
+    .affix #scrolled_logo,
+    .affix-bottom #scrolled_logo {
+        display: none;
+    }
+}
+
 @media (min-width: 768px) {
-    .affix {
-        width: inherit;
-        top : 0px;
-        padding: 0;
+    .affix #scrolled_logo,
+    .affix-bottom #scrolled_logo {
+        display: none;
     }
 }
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
     .affix {
+        position: fixed;
         width: inherit;
-        top : 0px;
+        top : 30px;
         padding: 0;
+    }
+
+    .affix #scrolled_logo,
+    .affix-bottom #scrolled_logo {
+        display: block;
     }
 }
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
     .affix {
+        position: fixed;
         width: inherit;
-        top : 0px;
+        top : 30px;
         padding: 0;
     }
-}
 
-/*We're all squares here.*/
-pre,
-.btn,
-input[type="text"],
-textarea,
-.form-control,
-.label,
-.jumbotron {
-    border-radius: 0;
+    .affix #scrolled_logo,
+    .affix-bottom #scrolled_logo {
+        display: block;
+    }
 }

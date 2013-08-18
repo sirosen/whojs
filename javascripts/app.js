@@ -30,6 +30,7 @@ $(document).ready(function() {
 		jasmineEnv.execute();
 	}
 
+	// Feedback for the hover example.
 	$('.hover_example_box').hover(function(){
 			$(this).html('BRAH!');
 		},function() {
@@ -37,11 +38,36 @@ $(document).ready(function() {
 		}
 	);
 
+	$('form').submit(function(e) {
+		e.preventDefault();
+	});
+
+	// Feedback for the typing enter example.
+	$('#typing_enter_example form').submit(function(e) {
+		e.preventDefault();
+		alert('Submitted!');
+	});
+
 
 	$('#sidebar').width(($('#sidebar_container').width()-30));
 
+
 	$(window).resize(function() {
 		$('#sidebar').width(($('#sidebar_container').width()-30));
+		if ($(window).width() < 480) {
+			$('#scrolled_logo').hide()
+		}
 	});
+
+	var _affixed = $('.sidenav').hasClass('affix') || $('.sidenav').hasClass('affix-bottom');
+	// _affixed == true ? $('#scrolled_logo').fadeIn() : $('#scrolled_logo').hide();
+
+	$(window).scroll(function() {
+		var _widthIsGood = ($(window).width() > 992);
+		_affixed = $('.sidenav').hasClass('affix') || $('.sidenav').hasClass('affix-bottom');
+		(_affixed && _widthIsGood) ? $('#scrolled_logo').fadeIn() : $('#scrolled_logo').hide();
+	});
+
+
 
 });
