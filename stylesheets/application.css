@@ -194,6 +194,17 @@ body {
     margin-left: 30px;
 }
 
+.twitter:hover {
+    background:#3399f3;
+    -webkit-transition : background 500ms ease-out;
+    -moz-transition : background 500ms ease-out;
+    -o-transition : background 500ms ease-out;
+}
+
+.twitter a:hover {
+    text-decoration: none;
+}
+
 #click_spot {
     position: fixed;
     z-index: 100;
