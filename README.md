@@ -15,4 +15,4 @@ Please feel to contribute as much or as little as you would like to Who. Any bug
 ### How to use WhoJS.
 For a short tutorial on the use cases for WhoJS, visit the [WhoJS Homepage](http://globusonline.github.io/whojs/).
 
-For more in-depth documentation, refer to the [WhoJS API](https://gist.github.com/neildahlke/f2241c22b996e94d4cf9).
+For more in-depth documentation, refer to the [WhoJS Documentation](https://gist.github.com/neildahlke/f2241c22b996e94d4cf9).

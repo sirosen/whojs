@@ -20,12 +20,12 @@ var Q = {
         BUTTON : "button,input[type=button],input[type=submit]",
         INPUT : "input,textarea,select",
 
-        // TODO:
-        // Change text to valueText, label to valueLabel.
-        // Logger class?
-        // Convert to RAW JS?
-        // Only one _caseFunc?
+        // _caseFunc : function(x) {
+        //     x = x || "";
+        //     return x.toLowerCase();
+        // },
 
+        // TODO Dismiss alert box, fill in alert input.
 
 
         findEl : function(data) {
@@ -183,8 +183,6 @@ var Q = {
                     _$matchingField = $input;
                 }
             }
-
-            console.log(_$matchingField);
 
             return _$matchingField;
         },

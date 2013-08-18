@@ -16,6 +16,8 @@ body {
     padding-bottom: 19px;
 }
 .footer {
+    width: 100%;
+    clear: both;
     border-top: 1px solid #E5E5E5;
     color: #777777;
     padding-top: 19px;
@@ -188,6 +190,10 @@ body {
     left: -4px;
 }
 
+.twitter {
+    margin-left: 30px;
+}
+
 #click_spot {
     position: fixed;
     z-index: 100;
@@ -198,4 +204,97 @@ body {
     margin-top: -25px;
     display: block;
     background: #3399f3;
+}
+
+.hover_example_box {
+    background: #fff;
+    height: 100px;
+    width: 100px;
+    margin: auto;
+    background: url('../images/surfer.jpg') no-repeat;
+    -webkit-transition : background 500ms ease-out;
+    -moz-transition : background 500ms ease-out;
+    -o-transition : background 500ms ease-out;
+    background-position: -10px -10px;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 6px 4px #33F,
+                 -3px -5px 4px #F00,
+                 3px -5px 4px #0F0;
+    font-size: 24px;
+    padding-top: 30px;
+}
+
+
+.hover_example_box:hover {
+    background-position: -450px -200px;
+
+}
+
+.sidenav {
+    margin-top: 50px;
+    background: #fff;
+    border: 1px solid #eee;
+    font-size: 12px;
+}
+
+.sidenav li.active {
+    border-right: 2px solid #3399f3;
+}
+
+.sidenav .subnav li.active {
+    border-right: 4px solid #3399f3;
+}
+
+.subnav {
+    padding-left: 15px;
+    background: #f9f9f9;
+}
+
+.subnav>li>a {
+    color: #666;
+    padding-left: 30px;
+    margin-left: -15px;
+    font-size: 10px;
+}
+
+.content_col {
+    float: right;
+}
+
+@media (min-width: 768px) {
+    .affix {
+        width: inherit;
+        top : 0px;
+        padding: 0;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .affix {
+        width: inherit;
+        top : 0px;
+        padding: 0;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .affix {
+        width: inherit;
+        top : 0px;
+        padding: 0;
+    }
+}
+
+/*We're all squares here.*/
+pre,
+.btn,
+input[type="text"],
+textarea,
+.form-control,
+.label,
+.jumbotron {
+    border-radius: 0;
 }
