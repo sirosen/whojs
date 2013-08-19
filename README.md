@@ -10,9 +10,11 @@ git clone git@github.com:globusonline/whojs.git
 ```
 
 ### How to contribute.
-Please feel to contribute as much or as little as you would like to Who. Any bugs or ideas for features should be posted on our [issues page](https://github.com/globusonline/whojs/issues).
+Please feel to contribute as much or as little as you would like to `Who`. Any bugs or ideas for features should be posted on our [issues page](https://github.com/globusonline/whojs/issues). You can also see what is on the menu for us through the [WhoJS Trello](https://trello.com/b/XK8WBeeP/whojs) page.
 
 ### How to use WhoJS.
 For a short tutorial on the use cases for WhoJS, visit the [WhoJS Homepage](http://globusonline.github.io/whojs/).
 
-For more in-depth documentation, refer to the [WhoJS Documentation](https://gist.github.com/neildahlke/f2241c22b996e94d4cf9).
+For more in-depth documentation, refer to the [WhoJS Documentation](https://github.com/globusonline/whojs/blob/master/DOCS.md).
+
+**Released under the [MIT License](https://github.com/globusonline/whojs/blob/master/LICENSE.md).**
