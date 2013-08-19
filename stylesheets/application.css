@@ -267,7 +267,7 @@ body {
 
 #sidebar {
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 10px 0 0 10px;
 }
 
 .sidenav {
@@ -292,7 +292,6 @@ body {
 }
 
 .subnav {
-    border-radius: 0 0 10px 0;
     padding-left: 15px;
     background: #f9f9f9;
 }
