@@ -49,24 +49,27 @@
 
             // TODO: determine how we should handle elements that have no text and only have icons.
 
-            var ele;
+            var _$el;
             if (!!data.text) {
-                ele = Q.findElWithText(data);
+                _$el = Q.findElWithText(data);
             } else if (!!data.label) {
-                ele = Q.findValueByLabel(data);
+                _$el = Q.findValueByLabel(data);
             } else if (!!data.placeholderText) {
-                ele = Q.findValueByPlaceholderText(data);
+                _$el = Q.findValueByPlaceholderText(data);
             } else {
-                ele = Q.findEl(data);
+                _$el = Q.findEl(data);
             }
 
-            if (!!ele && ele.length > 0) {
-                data.status = true;
-                try {
-                    var el = $(ele[0]);
+            if (!!_$el && _$el.length > 0) {
 
-                    if (el.click) {
-                        el.click();
+                data.status = true;
+
+                try {
+
+                    var _$tmpEl = $(_$el[0]);
+
+                    if (_$tmpEl.click) {
+                        _$tmpEl.click();
                         // TODO: This is some coolness! It'll show where the user clicked, but there is something
                         // going on that needs debugging.
                         // $('#click_spot').remove();
@@ -81,7 +84,7 @@
                         //    .fadeOut();
                     } else {
                         data.status = false;
-                        console.log("Click was not a function.")
+                        console.log("Click was not a function.");
                     }
 
                 } catch(Exception) {
@@ -90,14 +93,24 @@
                 }
             } else {
                 data.status = false;
-                console.log(data.query + " not found");
+                console.log(data.text + " not found");
             }
             return data.status;
         },
 
         clicksLink : function(data) {
-            data.type = "LINK";
-            this.clicksElement(data);
+            // User can pass in an object, or simply the string of text we're looking for.
+            var _options = null;
+            if (data && typeof data == "string") {
+                _options = {
+                    text : data
+                };
+            } else if (data && typeof data == "object") {
+                _options = data;
+            }
+            _options.type = "LINK";
+
+            this.clicksElement(_options);
         },
 
         clicksRadio : function(data) {
@@ -164,14 +177,13 @@
 
             var _$el = null;
 
-            if (!!data.label) {
+            if (data.label) {
                 _$el = Q.findValueByLabel(data);
             } else if (!!data.placeholderText) {
                 _$el = Q.findValueByPlaceholderText(data);
             }
 
-
-            if (_$el && _$el.length) {
+            if (_$el && _$el.length == 1) {
                 return _$el.val();
             }
 
@@ -218,16 +230,18 @@
         selectsFromDropDown : function(data) {
 
             data.valueType = 'select';
+
             var _optionText = data.optionText || "",
-                _$selectBoxes = Q.findValueByLabel(data),
-                _box = _$selectBoxes[0],
+                _selectBoxes = Q.findValueByLabel(data),
+                _$box = $(_selectBoxes[0])[0],
                 _match = false;
 
-            for (var i = 0; i < _box.length || _match; i++) {
-                var _optLabel = _box[i].label;
+            for (var opt = 0; opt < _$box.length; opt++) {
+
+                var _optLabel = !!_$box[opt] ? _$box[opt].label : '';
+
                 if (_optionText === _optLabel) {
-                    $(_box).val(_box[i].value);
-                    _match = true;
+                    $(_$box).val(_$box[opt].value);
                 }
             }
 
@@ -237,9 +251,44 @@
         },
 
         setContext : function(context) {
-            this.context = Q.context = $(context);
+
+            if (typeof context == "string") {
+                this.context = Q.context = $(context);
+            } else if (typeof context == "object") {
+                this.context = Q.context = context;
+            }
+
             $('*').removeClass('who-context');
             $(context).addClass('who-context');
+
+        },
+
+        setContextToParentOfEl : function(data) {
+            var _parentElQuery = data.parentElQuery || null,
+                _$el = null;
+
+            if (!!data.text) {
+                _$el = Q.findElWithText(data);
+            } else if (!!data.label) {
+                _$el = Q.findValueByLabel(data);
+            } else if (!!data.placeholderText) {
+                _$el = Q.findValueByPlaceholderText(data);
+            } else {
+                _$el = Q.findEl(data);
+            }
+
+            if (_parentElQuery) {
+
+                var _$tmpParent = _$el.closest(_parentElQuery);
+
+                if (_$tmpParent.length > 0) {
+                    this.setContext(_$tmpParent);
+                }
+
+            } else {
+                console.log('Cannot set context to parent element without the option parentElType.');
+            }
+
         },
 
         typesValueIntoForm : function(data) {
@@ -330,6 +379,11 @@ var Q = {
     LINK : "a",
     BUTTON : "button,input[type=button],input[type=submit]",
     INPUT : "input,textarea,select",
+
+    findClosest : function(data) {
+
+    },
+
     findEl : function(data) {
         var els = this.findEls(data);
         if (els.length == 1) {
@@ -370,15 +424,19 @@ var Q = {
     },
 
     findElWithText : function(data) {
+
         var _elements = this.findEls(data);
         var _retVal = null;
         var _caseFunc = function(x) {return x;};
+
         if (!data.caseSensitive) _caseFunc = function(x) {return x.toLowerCase();};
+
         var _text = _caseFunc(data.text),
             _match = false,
             _partial = (!!data.findByPartial) ? data.findByPartial : false;
 
         _elements.each(function(i,v) {
+
             var _elText = _caseFunc($.trim($(v).text())) || _caseFunc($.trim($(v).val()));
 
             if (_partial) {
@@ -387,7 +445,7 @@ var Q = {
                 _match =  (_elText == _text);
             }
 
-            if (_match) {
+            if (_match && _retVal === null) {
                 _retVal = $(v);
             }
 
@@ -432,16 +490,18 @@ var Q = {
                 _match =  (_labelText == _text);
             }
 
-
             if (!_forInput) {
-                console.log("The label you are looking for must have a for tag that corresponds to it's input.");
+                console.log("The label "+_labelText +" you are looking for must have a for tag that corresponds to it's input.");
             }
 
             if (_match) {
-                _$matchingField = $(_valueType+'[name="'+_forInput+'"]');
-                _$matchingField = _$matchingField.length === 0 ? $('#'+_forInput) : _$matchingField;
-                _$matchingField = _$matchingField.length === 0 ? $('.'+_forInput) : _$matchingField;
-                break;
+                var _byName = this.context.selector + " " +_valueType+'[name="'+_forInput+'"]',
+                    _byID = this.context.selector + ' #'+_forInput,
+                    _byClass = this.context.selector + ' .'+_forInput;
+
+                _$matchingField = $(_byName);
+                _$matchingField = _$matchingField.length === 0 ? $(_byID) : _$matchingField;
+                _$matchingField = _$matchingField.length === 0 ? $(_byClass) : _$matchingField;
             }
 
         }
