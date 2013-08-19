@@ -17,8 +17,6 @@ Another common element of text searching with `Who` is will be `label` and `plac
 
 Inputs don't always have labels however, and in that case, `Who` has a backup. Using `placeholderText` will allow Who to track down any input that has a placeholder string that matches the `placeholderText` option.
 
-`TODO: find by query`
-
 _Also, feel free to checkout the [demo site](http://globusonline.github.io/whojs/)._
 
 ---
@@ -130,7 +128,7 @@ options = {
 }
 ```
 
-`TODO: Add query to readsFormValue`
+
 
 This method allows for `Who` to read from any value field in a form, be it a `checkbox`, `radio`, `input`, or `textarea`. To retrieve this form value, one must simply pass a `label` option with the inner text of the label `for` that input.
 
@@ -219,8 +217,6 @@ options = {
 }
 ```
 
-`TODO: Add query to typesValueIntoForm`
-
 This method simulates a keystroke-by-keystroke entering of information into a form field. To find the correct input, use the `label` parameter, which matches the inner text of the label for that field, and is mapped by the `label`'s `for` attribute.  `findByPartial` rules apply. The `text` option refers to the text that Who will actually be typing in.
 
 ### typesEnterKey
@@ -232,4 +228,4 @@ options = {
 	findByPartial : BOOL [default:false]
 }
 ```
-To be documented...
+`typesEnterKey` gives `Who` the ability to recreate an enter key stroke with the focus on the matching `<input>`.
