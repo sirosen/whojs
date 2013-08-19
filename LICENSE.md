@@ -1,5 +1,4 @@
-Copyright 2013 Dan Morgan, Jim Kogler & Neil Dahlke, Computation Institute
-http://ci.uchicago.edu/
+_Copyright 2013 Dan Morgan, Jim Kogler & Neil Dahlke, Computation Institute (http://ci.uchicago.edu/)_
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
