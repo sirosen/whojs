@@ -209,7 +209,7 @@
             data.type = "img";
             data.numImages = data.numImages || 1;
             data.visible = true;
-            var $el = $(Q.findEl(data));
+            var $el = Q.findEl(data);
 
             // TODO: add option withAltTag
 
@@ -348,8 +348,8 @@
 
             findHiddenInputThroughInspection : function(data) {
                 data.type = "input[type='hidden'][name='"+data.name+"']";
-                var retVal = Query.findEl(data);
-                return $(retVal);
+                var retVal = Q.findEl(data);
+                return retVal;
             },
 
             findElByID : function(data) {
@@ -387,7 +387,7 @@ var Q = {
     findEl : function(data) {
         var els = this.findEls(data);
         if (els.length == 1) {
-            return els[0];
+            return $(els[0]);
         } else {
             console.log('Too many elements found for ' + data.query);
             return null;
