@@ -1,4 +1,3 @@
-
 ![WhoJS](http://i.imgur.com/YapJIJk.png "An automated web user.")
 
 ##### WhoJS v0.0.1
@@ -6,7 +5,7 @@
 ---
 
 # WhoJS README
-_v0.0.1 - [Dan Morgan](https://www.twitter.com/thatdanmorgan), [Jim Kogler](https://www.twitter.com/koglerjs), [Neil Dahlke](https://www.twitter.com/neildahlke)_
+_v0.0.1 - [Neil Dahlke](https://www.twitter.com/neildahlke)_
 
 ### How to get the code.
 
